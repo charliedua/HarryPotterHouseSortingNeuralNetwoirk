@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace HarryPotterHouseSortingNeuralNetwoirk
 {
-    public class Class1
+    public class Layer
     {
+        public Layer(List<Neuron> neurons)
+        {
+            Neurons = neurons;
+        }
+
+        public List<Neuron> Neurons { get; }
     }
 }

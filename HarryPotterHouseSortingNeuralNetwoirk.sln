@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarryPotterHouseSortingNeuralNetwoirk", "HarryPotterHouseSortingNeuralNetwoirk\HarryPotterHouseSortingNeuralNetwoirk.csproj", "{914DB901-C89B-4E55-A328-411CC10EB343}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarryPotterHouseSortCLI", "HarryPotterHouseSortCLI\HarryPotterHouseSortCLI.csproj", "{B6A79BD7-9A38-401D-A865-91B37F89ADC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{914DB901-C89B-4E55-A328-411CC10EB343}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{914DB901-C89B-4E55-A328-411CC10EB343}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{914DB901-C89B-4E55-A328-411CC10EB343}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6A79BD7-9A38-401D-A865-91B37F89ADC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6A79BD7-9A38-401D-A865-91B37F89ADC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6A79BD7-9A38-401D-A865-91B37F89ADC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6A79BD7-9A38-401D-A865-91B37F89ADC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
