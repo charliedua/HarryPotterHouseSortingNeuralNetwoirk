@@ -17,5 +17,7 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
         public Trait Trait { get; }
 
         public string Name { get; set; }
+
+        public HogwartsHouse house;
     }
 }

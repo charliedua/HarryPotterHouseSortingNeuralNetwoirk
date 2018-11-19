@@ -2,15 +2,14 @@
 {
     public class Trait
     {
-        public float Humor;
+        public float humor;
 
-        public float Courage;
+        public float courage;
+
+        public float height;
 
         /*
          * b/w 0 - 1
-         * humor
-         * FamilyHistory
-         * Courage
          */
     }
 }

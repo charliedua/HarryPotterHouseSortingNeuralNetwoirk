@@ -8,13 +8,11 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
 {
     public class Connection
     {
-        /// <summary>
-        /// Gets or sets the neuron from.
-        /// </summary>
-        /// <value>
-        /// The neuron from.
-        /// </value>
-        public Neuron NeuronFrom { get; set; }
+        public Connection(Neuron neuronTo, float weight)
+        {
+            NeuronTo = neuronTo;
+            Weight = weight;
+        }
 
         /// <summary>
         /// Gets or sets the neuron to.
