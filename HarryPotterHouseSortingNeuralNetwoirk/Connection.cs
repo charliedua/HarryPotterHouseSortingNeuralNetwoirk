@@ -8,9 +8,9 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
 {
     public class Connection
     {
-        public Connection(Neuron neuronTo, float weight)
+        public Connection(Neuron neuronFrom, float weight)
         {
-            NeuronTo = neuronTo;
+            NeuronFrom = neuronFrom;
             Weight = weight;
         }
 
@@ -20,7 +20,7 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
         /// <value>
         /// The neuron to.
         /// </value>
-        public Neuron NeuronTo { get; set; }
+        public Neuron NeuronFrom { get; set; }
 
         public float Weight { get; set; }
     }

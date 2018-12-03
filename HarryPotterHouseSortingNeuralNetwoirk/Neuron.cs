@@ -6,34 +6,37 @@ using System.Threading.Tasks;
 
 namespace HarryPotterHouseSortingNeuralNetwoirk
 {
-    public class Neuron
+    public abstract class Neuron
     {
-        public Neuron(float value, int id)
+        public Neuron(string id)
         {
-            Value = value;
             ID = id;
         }
 
-        public int ID { get; }
+        public string ID { get; }
 
-        private float _value;
-
-        public float Bias { get; set; }
+        // public abstract float Bias { get; set; }
 
         public bool IsBiased { get; set; } = false;
 
-        public float Value { get => _value; set => _value = value; }
+        public float Activation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the connections. Where a connection represents the connection between
+        /// weights from this neuron to the neuron in next layer.
+        /// </summary>
+        /// <value>The connections.</value>
         public List<Connection> Connections { get; set; } = new List<Connection>();
 
         public void AddOrUpdateConnection(Neuron neuron, float weight)
         {
-            if (Connections.Find(x => x.NeuronTo == neuron) == null) // couldn't find
+            if (Connections.Find(x => x.NeuronFrom == neuron) == null) // couldn't find
             {
                 Connections.Add(new Connection(neuron, weight));
             }
-            else if (Connections.Find(x => x.NeuronTo.ID == neuron.ID).Weight != weight) // Found
+            else if (Connections.Find(x => x.NeuronFrom.ID == neuron.ID).Weight != weight) // Found
             {
-                Connections.Find(x => x.NeuronTo == neuron).Weight = weight;
+                Connections.Find(x => x.NeuronFrom == neuron).Weight = weight;
             }
         }
 

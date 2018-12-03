@@ -1,4 +1,4 @@
-﻿namespace HarryPotterHouseSortingNeuralNetwoirk
+﻿namespace HarryPotterHouseSortCLI
 {
     public enum HogwartsHouse
     {
