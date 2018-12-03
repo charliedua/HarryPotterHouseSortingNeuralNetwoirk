@@ -17,24 +17,16 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
         }
 
         public float CurrentError { get; set; }
+        public float CurrentTarget { get; set; }
 
-        public float CalcError(float target)
+        public void CalcError()
         {
-            return target - Activation;
-            //
-            //foreach (Neuron neuron in prevLayer.Neurons)
-            //{
-            //    var conns = neuron.Connections.FindAll(x => x.NeuronFrom == this);
-            //foreach (var conn in conns)
-            //{
-            //    conn.Weight
-            //    }
-            //}
-            //return 0;
+            CurrentError = CurrentTarget - Activation;
         }
 
-        public float CalcTarget(Layer nextLayer)
+        public void CalcTarget(Layer nextLayer)
         {
+            // All outgoing Connections from this neuron.
             List<Connection> conns = new List<Connection>();
             foreach (Neuron neuron in nextLayer.Neurons)
             {
@@ -48,13 +40,14 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
                 sum += conn.Weight;
             }
 
-            float error1 = 0f;
+            // Calculates the Total error
+            float totalError = 0f;
             for (int i = 0; i < nextLayer.Neurons.Count; i++)
             {
-                error1 = conns[i].Weight / sum * (nextLayer.Neurons[i] as ICalculateError).CurrentError;
+                totalError += (conns[i].Weight / sum) * (nextLayer.Neurons[i] as ICalculateError).CurrentError;
             }
 
-            return error1;
+            CurrentError = totalError;
         }
     }
 }

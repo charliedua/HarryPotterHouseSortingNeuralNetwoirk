@@ -51,6 +51,42 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
             return returnData;
         }
 
+        public void BackProp(float[] targets)
+        {
+            Layer outputLayer = Layers.Last();
+
+            //
+            for (int i = 0; i < outputLayer.Neurons.Count; i++)
+            {
+                (outputLayer.Neurons[i] as OutputNeuron).CurrentTarget = targets[i];
+            }
+
+            // Calculate error and store it in the neuron
+            foreach (Neuron neuron in outputLayer.Neurons)
+            {
+                (neuron as ICalculateError).CalcError();
+            }
+
+            // For all the hidden layers calculate the targets
+            // and store them in the neurons itself.
+            for (int i = 1; i < Layers.Count - 1; i++)
+            {
+                foreach (Neuron hiddenNeuron in Layers[i].Neurons)
+                {
+                    (hiddenNeuron as HiddenNeuron).CalcTarget(Layers[i].NextLayer);
+                }
+            }
+
+            // For all the hidden layers calculate the errors
+            for (int i = 1; i < Layers.Count - 1; i++)
+            {
+                foreach (Neuron hiddenNeuron in Layers[i].Neurons)
+                {
+                    (hiddenNeuron as ICalculateError).CalcError();
+                }
+            }
+        }
+
         //public void Train(List<Student> students)
         //{
         //    foreach (Student student in students)

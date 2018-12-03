@@ -2,7 +2,9 @@
 {
     internal interface ICalculateError
     {
-        float CalcError(float target);
+        void CalcError();
+
+        float CurrentTarget { get; set; }
 
         float CurrentError { get; }
     }

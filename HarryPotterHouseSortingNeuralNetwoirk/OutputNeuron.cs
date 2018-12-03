@@ -24,6 +24,9 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
         /// Calculates the error.
         /// </summary>
         /// <param name="prevLayer">The previous layer.</param>
-        public float CalcError(float target) => target - Activation;
+        public void CalcError()
+        {
+            CurrentError = CurrentTarget - Activation;
+        }
     }
 }

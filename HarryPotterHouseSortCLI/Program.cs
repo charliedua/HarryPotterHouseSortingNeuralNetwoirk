@@ -45,7 +45,9 @@ namespace HarryPotterHouseSortCLI
 
             network.Init();
 
-            Console.WriteLine(network.FeedForeward(new float[] { student.Trait.courage, student.Trait.height, student.Trait.humor }));
+            network.FeedForeward(new float[] { student.Trait.courage, student.Trait.height, student.Trait.humor });
+
+            network.BackProp(new float[] { 0, 1, 0, 0 });
         }
     }
 }
