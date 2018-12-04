@@ -21,7 +21,7 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
 
         public void CalcError()
         {
-            CurrentError = CurrentTarget - Activation;
+            CurrentError = (float)Math.Pow(Math.Abs(CurrentTarget) - Math.Abs(Activation), 2);
         }
 
         public void CalcTarget(Layer nextLayer)
@@ -37,14 +37,20 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
             var sum = 0f;
             foreach (var conn in conns)
             {
-                sum += conn.Weight;
+                if (conn != null)
+                {
+                    sum += conn.Weight;
+                }
             }
 
             // Calculates the Total error
             float totalError = 0f;
             for (int i = 0; i < nextLayer.Neurons.Count; i++)
             {
-                totalError += (conns[i].Weight / sum) * (nextLayer.Neurons[i] as ICalculateError).CurrentError;
+                if (conns[i] != null)
+                {
+                    totalError += (conns[i].Weight / sum) * (nextLayer.Neurons[i] as ICalculateError).CurrentError;
+                }
             }
 
             CurrentError = totalError;

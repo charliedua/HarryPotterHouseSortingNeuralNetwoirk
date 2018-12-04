@@ -55,7 +55,7 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
         {
             Layer outputLayer = Layers.Last();
 
-            //
+            // Specify the targets for the output neurons
             for (int i = 0; i < outputLayer.Neurons.Count; i++)
             {
                 (outputLayer.Neurons[i] as OutputNeuron).CurrentTarget = targets[i];
@@ -87,7 +87,31 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
             }
         }
 
-        //public void Train(List<Student> students)
+        public float LearningRate { get; set; } = 0.01f;
+
+        public void Train()
+        {
+            for (int i = 1; i < Layers.Count; i++)
+            {
+                for (int j = Layers[i].Neurons.Count - 1; j >= 1; j--)
+                {
+                    ICalculateError neuron = Layers[i].Neurons[j] as ICalculateError;
+                    if (!Layers[i].Neurons[j].IsBiased)
+                    {
+                        Layer previousLayer = Layers[i - 1];
+                        var a = -2 * (neuron.CurrentTarget - neuron.CurrentError);
+                        foreach (Connection conn in (neuron as Neuron).Connections)
+                        {
+                            double b = (1 - Math.Pow(Math.Tanh(conn.NeuronFrom.Activation * conn.Weight), 2)) * conn.NeuronFrom.Activation;
+                            double derivative = a * b;
+                            double toAdd = -1 * (LearningRate * derivative);
+                            conn.Weight += (float)toAdd;
+                        }
+                    }
+                }
+            }
+        }
+
         //{
         //    foreach (Student student in students)
         //    {
