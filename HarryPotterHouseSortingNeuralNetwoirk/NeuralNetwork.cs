@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HarryPotterHouseSortingNeuralNetwoirk
+namespace NeuralNetworkLibrary
 {
     public class NeuralNetwork
     {
@@ -22,36 +22,56 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
         public List<Layer> Layers { get; set; }
 
         /// <summary>
-        /// Feeds the data to the first layer and that feeds to the next layer
-        /// untill ouput layer is reached.
+        /// Gets or sets the learning rate.
         /// </summary>
-        /// <param name="data">The input data for the NN.</param>
-        /// <returns>The activations in last layer (output layer)</returns>
-        public float[] FeedForeward(float[] data)
+        /// <value>The learning rate.</value>
+        public float LearningRate { get; set; } = 0.01f;
+
+        /// <summary>
+        /// Initializes this neural Network.
+        /// </summary>
+        /// <remarks>
+        /// This Should be called when the Neural network is created, else you will get errors
+        /// </remarks>
+        public void Init()
         {
-            var i = 0;
-            foreach (Neuron neuron in Layers.First().Neurons)
-            {
-                if (!neuron.IsBiased)
+            Random random = new Random(DateTime.Today.Millisecond);
+
+            // init Biases
+            /*
+                foreach (Neuron neuron in Layers[1].Neurons)
                 {
-                    neuron.Activation = data[i];
-                    i++;
+                    neuron.Bias = (float)random.NextDouble();
                 }
-            }
-            for (Layer layer = Layers[1]; layer != null; layer = layer.NextLayer)
+            */
+
+            // init weights
+            for (int i = 1; i < Layers.Count - 1; i++)
             {
-                layer.FeedForeward();
+                Layers[i].InitNeuronsRandWeight(Layers[i]);
+                Layers[i].NextLayer = Layers[i + 1];
             }
-            var outputLayer = Layers.Last();
-            var returnData = new float[outputLayer.Neurons.Count];
-            for (i = 0; i < outputLayer.Neurons.Count; i++)
-            {
-                returnData[i] = outputLayer.Neurons[i].Activation;
-            }
-            return returnData;
+        } // Init
+
+        /// <summary>
+        /// Trains the Neural Network with the specified data.
+        /// </summary>
+        /// <param name="data">The data to train with. (For input layer)</param>
+        /// <param name="targets">The expected values in the output layer.</param>
+        public void Train(float[] data, float[] targets)
+        {
+            FeedForeward(data);
+
+            BackProp(targets);
+
+            UpdateWeights();
         }
 
-        public void BackProp(float[] targets)
+        /// <summary>
+        /// Back propagates the error.
+        /// </summary>
+        /// <param name="targets">The target values of each neuron in output layer.</param>
+        private void BackProp(float[] targets)
         {
             Layer outputLayer = Layers.Last();
 
@@ -87,9 +107,40 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
             }
         }
 
-        public float LearningRate { get; set; } = 0.01f;
+        /// <summary>
+        /// Feeds the data to the first layer and that feeds to the next layer
+        /// untill ouput layer is reached.
+        /// </summary>
+        /// <param name="data">The input data for the NN.</param>
+        /// <returns>The activations in last layer (output layer)</returns>
+        private float[] FeedForeward(float[] data)
+        {
+            var i = 0;
+            foreach (Neuron neuron in Layers.First().Neurons)
+            {
+                if (!neuron.IsBiased)
+                {
+                    neuron.Activation = data[i];
+                    i++;
+                }
+            }
+            for (Layer layer = Layers[1]; layer != null; layer = layer.NextLayer)
+            {
+                layer.FeedForeward();
+            }
+            var outputLayer = Layers.Last();
+            var returnData = new float[outputLayer.Neurons.Count];
+            for (i = 0; i < outputLayer.Neurons.Count; i++)
+            {
+                returnData[i] = outputLayer.Neurons[i].Activation;
+            }
+            return returnData;
+        }
 
-        public void Train()
+        /// <summary>
+        /// Updates the weights with the back propagated error.
+        /// </summary>
+        private void UpdateWeights()
         {
             for (int i = 1; i < Layers.Count; i++)
             {
@@ -99,12 +150,14 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
                     if (!Layers[i].Neurons[j].IsBiased)
                     {
                         Layer previousLayer = Layers[i - 1];
-                        var a = -2 * (neuron.CurrentTarget - neuron.CurrentError);
+                        var a = (-2) * (neuron.CurrentTarget - neuron.CurrentError);
                         foreach (Connection conn in (neuron as Neuron).Connections)
                         {
+                            // This is complicated maths. 😅
+                            // Be advised this just works. 😀
                             double b = (1 - Math.Pow(Math.Tanh(conn.NeuronFrom.Activation * conn.Weight), 2)) * conn.NeuronFrom.Activation;
                             double derivative = a * b;
-                            double toAdd = -1 * (LearningRate * derivative);
+                            double toAdd = (-1) * (LearningRate * derivative);
                             conn.Weight += (float)toAdd;
                         }
                     }
@@ -112,83 +165,18 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
             }
         }
 
-        //{
-        //    foreach (Student student in students)
-        //    {
-        //        // input layer stuff
-        //        Layers[0].Neurons[0].Activation = student.Trait.courage;
-        //        Layers[0].Neurons[1].Activation = student.Trait.humor;
-        //        Layers[0].Neurons[2].Activation = student.Trait.height;
-        //        Layers[0].Neurons[3].Activation = 1;
-
-        //        GiveInputToNext(1);
-        //        GiveInputToNext(2);
-
-        //        Neuron maxNeuron = null;
-        //        float max = 0.0f;
-        //        foreach (Neuron neuron in Layers[2].Neurons)
-        //        {
-        //            if (max < neuron.Activation)
-        //            {
-        //                max = neuron.Activation;
-        //                maxNeuron = neuron;
-        //            }
-        //        }
-
-        //        OutputNeuron outMaxNeuron = maxNeuron as OutputNeuron;
-
-        //        // actual != expected
-        //        if (outMaxNeuron.TargetHouse != student.house)
-        //        {
-        //            float target = 1.0f;
-        //            Neuron outputNeuron = Layers[2].Neurons.Find(x => (x as OutputNeuron).TargetHouse == student.house);
-        //            float output = outputNeuron.Activation;
-        //            List<float> errors = new List<float>();
-        //            float error = target - output;
-        //            errors.Add(target - output);
-        //            foreach (Neuron neuron in Layers[2].Neurons)
-        //            {
-        //                if (neuron.ID != outputNeuron.ID)
-        //                {
-        //                    error += 0 - output;
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
-        //private void GiveInputToNext(int layerNumber)
-        //{
-        //    foreach (Neuron neuron in Layers[layerNumber].Neurons)
-        //    {
-        //        float val = 0.0f;
-
-        //        foreach (var connection in neuron.Connections)
-        //        {
-        //            val += connection.Weight * connection.NeuronFrom.Activation;
-        //        }
-
-        //        val += neuron.Bias;
-
-        //        neuron.Activation = Activate(val);
-        //    }
-        //}
-
-        public void Init()
+        public Neuron Predict(float[] data)
         {
-            Random random = new Random(DateTime.Today.Millisecond);
-
-            // init Biases
-            //foreach (Neuron neuron in Layers[1].Neurons)
-            //{
-            //    neuron.Bias = (float)random.NextDouble();
-            //}
-
-            // init weights
-            for (int i = 1; i < Layers.Count; i++)
+            FeedForeward(data);
+            Neuron max = Layers.Last().Neurons[0];
+            foreach (Neuron neuron in Layers.Last().Neurons)
             {
-                Layers[i].InitNeuronsRandWeight(Layers[i - 1]);
+                if (neuron.Activation >= max.Activation)
+                {
+                    max = neuron;
+                }
             }
+            return max;
         }
     }
 }

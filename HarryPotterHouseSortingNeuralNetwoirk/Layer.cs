@@ -1,11 +1,14 @@
-﻿using System;
+﻿// This Code was written by Anmol Dua,
+// For fun 👨🏻‍💻
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Extreme.Mathematics;
 
-namespace HarryPotterHouseSortingNeuralNetwoirk
+namespace NeuralNetworkLibrary
 {
     public class Layer
     {
@@ -28,6 +31,9 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
         /// </summary>
         public Layer NextLayer { get; set; }
 
+        /// <summary>
+        /// Feeds the data foreward.
+        /// </summary>
         public void FeedForeward()
         {
             foreach (Neuron neuron in Neurons)
@@ -53,6 +59,7 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
 
         /// <summary>
         /// Adds connections from the layer to this layer with random weights.
+        /// 🤞 it works
         /// </summary>
         /// <param name="prevLayer">The previous layer.</param>
         public void InitNeuronsRandWeight(Layer prevLayer)
@@ -64,7 +71,7 @@ namespace HarryPotterHouseSortingNeuralNetwoirk
             {
                 foreach (Neuron thisNeuron in Neurons)
                 {
-                    // add a connection to neuron from previous layer
+                    // add a connection to neuron from previous layer with random weight
                     if (!thisNeuron.IsBiased)
                     {
                         thisNeuron.AddOrUpdateConnection(prevNeuron, (float)random.NextDouble());

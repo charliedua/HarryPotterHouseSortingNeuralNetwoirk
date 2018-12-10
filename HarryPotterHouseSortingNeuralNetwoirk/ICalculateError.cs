@@ -1,4 +1,4 @@
-﻿namespace HarryPotterHouseSortingNeuralNetwoirk
+﻿namespace NeuralNetworkLibrary
 {
     internal interface ICalculateError
     {

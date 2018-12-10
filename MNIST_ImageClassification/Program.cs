@@ -68,10 +68,6 @@ namespace MNIST_ImageClassification
                 };
             Layer output = new Layer(OutputNeurons);
 
-            input.NextLayer = hidden;
-            hidden.NextLayer = hidden2;
-            hidden2.NextLayer = output;
-
             NeuralNetwork network = new NeuralNetwork(new List<Layer>() { input, hidden, hidden2, output });
 
             network.Init();
@@ -91,7 +87,7 @@ namespace MNIST_ImageClassification
             Console.Write("Training");
 
             // each test image
-            for (int di = 0; di < numImages; ++di)
+            for (int di = 0; di < 9999; ++di)
             {
                 for (int i = 0; i < 28; ++i)
                 {
@@ -115,7 +111,7 @@ namespace MNIST_ImageClassification
                         data[i] = dImage.Pixels[i][j];
                     }
                 }
-                Convert.ToInt32(dImage.Label);
+                // Convert.ToInt32(dImage.Label);
                 List<float> targets = new List<float>();
                 for (int i = 0; i < 10; i++)
                 {
@@ -124,10 +120,8 @@ namespace MNIST_ImageClassification
                     else
                         targets.Add(0);
                 }
-                network.FeedForeward(data);
-                network.BackProp(targets.ToArray());
-                network.Train();
-                Console.Write(".");
+                network.Train(data, targets.ToArray());
+                Console.WriteLine("Now Training {0}", di);
             } // each image
 
             ifsImages.Close();
@@ -159,7 +153,7 @@ namespace MNIST_ImageClassification
             int corrects = 0;
             int incorrects = 0;
 
-            for (int di = 0; di < numImages; di++)
+            for (int di = 0; di < 9999; di++)
             {
                 for (int i = 0; i < 28; ++i)
                 {
@@ -184,19 +178,9 @@ namespace MNIST_ImageClassification
                     }
                 }
 
-                network.FeedForeward(data);
+                var PredictedID = network.Predict(data);
 
-                Neuron max = output.Neurons.First();
-
-                foreach (Neuron neuron in output.Neurons)
-                {
-                    if (neuron.Activation >= max.Activation)
-                    {
-                        max = neuron;
-                    }
-                }
-
-                if (Convert.ToInt32(dImage.Label) == int.Parse(max.ID))
+                if (Convert.ToInt32(dImage.Label) == int.Parse(PredictedID))
                 {
                     corrects++;
                 }
@@ -214,7 +198,6 @@ namespace MNIST_ImageClassification
     } // Program
 
     internal class Image
-
     {
         public byte[][] Pixels { get; set; }
         public byte Label;

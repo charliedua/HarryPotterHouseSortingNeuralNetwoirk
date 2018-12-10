@@ -50,9 +50,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HarryPotterHouseSortingNeuralNetwoirk\HarryPotterHouseSortingNeuralNetwoirk.csproj">
+    <ProjectReference Include="..\HarryPotterHouseSortingNeuralNetwoirk\NeuralNetwork.csproj">
       <Project>{914DB901-C89B-4E55-A328-411CC10EB343}</Project>
-      <Name>HarryPotterHouseSortingNeuralNetwoirk</Name>
+      <Name>NeuralNetwork</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
