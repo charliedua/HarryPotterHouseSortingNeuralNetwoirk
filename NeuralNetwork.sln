@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork", "HarryPotterHouseSortingNeuralNetwoirk\NeuralNetwork.csproj", "{914DB901-C89B-4E55-A328-411CC10EB343}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork", "NeuralNetworkLibrary\NeuralNetwork.csproj", "{914DB901-C89B-4E55-A328-411CC10EB343}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetworkTests", "HarryPotterHouseSortingNeuralNetwoirkTests\NeuralNetworkTests.csproj", "{3EAB3CAA-0A12-4C70-A33E-5FDD392EDC1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetworkTests", "NeuralNetworkLibraryTests\NeuralNetworkTests.csproj", "{3EAB3CAA-0A12-4C70-A33E-5FDD392EDC1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
