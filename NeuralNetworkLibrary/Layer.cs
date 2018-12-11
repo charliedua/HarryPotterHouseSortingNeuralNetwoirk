@@ -39,11 +39,16 @@ namespace NeuralNetworkLibrary
             foreach (Neuron neuron in Neurons)
             {
                 float WeightedSum = 0f;
+
+                // For each incomming connection in this neuron take its weight and multiply it with
+                // the associated neuron's activation to calculate the Weighted Sum.
                 foreach (Connection connection in neuron.Connections)
                 {
                     WeightedSum += connection.Weight * connection.NeuronFrom.Activation;
                 }
-                neuron.Activation = Activate(WeightedSum);
+
+                // Set the activation of this neuron to the activated Weighted Sum calculated above.
+                neuron.Activation = 1 - Math.Abs(Activate(WeightedSum));
             }
         }
 
@@ -66,15 +71,16 @@ namespace NeuralNetworkLibrary
         {
             Random random = new Random(DateTime.Today.Millisecond);
 
-            // will store the incomming connections
-            foreach (Neuron prevNeuron in prevLayer.Neurons)
+            // will save the incomming connections from all the neurons from previous layer.
+            foreach (Neuron thisNeuron in Neurons)
             {
-                foreach (Neuron thisNeuron in Neurons)
+                // The previous layer neurons.
+                foreach (Neuron prevNeuron in prevLayer.Neurons)
                 {
-                    // add a connection to neuron from previous layer with random weight
+                    // add a connection to neuron from previous layer with random weight.
                     if (!thisNeuron.IsBiased)
                     {
-                        thisNeuron.AddOrUpdateConnection(prevNeuron, (float)random.NextDouble());
+                        thisNeuron.AddConnection(prevNeuron, (float)random.NextDouble() * 2 - 1);
                     }
                 }
             }

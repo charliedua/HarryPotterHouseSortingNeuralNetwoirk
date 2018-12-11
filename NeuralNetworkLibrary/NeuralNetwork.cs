@@ -35,13 +35,13 @@ namespace NeuralNetworkLibrary
         /// </remarks>
         public void Init()
         {
-            for (int i = 1; i < Layers.Count - 1; i++)
+            for (int i = 1; i < Layers.Count; i++)
             {
                 // init weights
-                Layers[i].InitNeuronsRandWeight(Layers[i]);
+                Layers[i].InitNeuronsRandWeight(Layers[i - 1]);
 
                 // init connections between layers
-                Layers[i].NextLayer = Layers[i + 1];
+                Layers[i - 1].NextLayer = Layers[i];
             }
         } // Init
 
@@ -116,9 +116,9 @@ namespace NeuralNetworkLibrary
                     i++;
                 }
             }
-            for (Layer layer = Layers[1]; layer != null; layer = layer.NextLayer)
+            for (int j = 1; j < Layers.Count; j++)
             {
-                layer.FeedForeward();
+                Layers[j].FeedForeward();
             }
             var outputLayer = Layers.Last();
             var returnData = new float[outputLayer.Neurons.Count];
@@ -132,6 +132,10 @@ namespace NeuralNetworkLibrary
         /// <summary>
         /// Updates the weights with the back propagated error.
         /// </summary>
+        /// <remarks>
+        /// The back propagate function should be called before calling this function else it will
+        /// result in unexpected results.
+        /// </remarks>
         private void UpdateWeights()
         {
             for (int i = 1; i < Layers.Count; i++)
@@ -146,7 +150,7 @@ namespace NeuralNetworkLibrary
                         foreach (Connection conn in (neuron as Neuron).Connections)
                         {
                             // This is complicated maths. 😅
-                            // Be advised this just works. 😀
+                            // Be advised this should just work. 😀
                             double b = (1 - Math.Pow(Math.Tanh(conn.NeuronFrom.Activation * conn.Weight), 2)) * conn.NeuronFrom.Activation;
                             double derivative = a * b;
                             double toAdd = (-1) * (LearningRate * derivative);

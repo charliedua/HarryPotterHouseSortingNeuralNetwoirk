@@ -28,15 +28,11 @@ namespace NeuralNetworkLibrary
         /// <value>The connections.</value>
         public List<Connection> Connections { get; set; } = new List<Connection>();
 
-        public void AddOrUpdateConnection(Neuron neuron, float weight)
+        public void AddConnection(Neuron neuron, float weight)
         {
             if (Connections.Find(x => x.NeuronFrom == neuron) == null) // couldn't find
             {
                 Connections.Add(new Connection(neuron, weight));
-            }
-            else if (Connections.Find(x => x.NeuronFrom.ID == neuron.ID).Weight != weight) // Found
-            {
-                Connections.Find(x => x.NeuronFrom == neuron).Weight = weight;
             }
         }
 
